@@ -1,4 +1,6 @@
 streamlit
+streamlit-notebook
+streamlit-jupyter
 pandas
 numpy
 scikit-learn
@@ -8,7 +10,4 @@ plotly
 tensorflow
 jupyter
 scipy
-altair
-bokeh
-pillow
-opencv-python
+fpdf
