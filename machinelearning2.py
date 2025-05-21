@@ -749,6 +749,8 @@ if st.button('Score Logistic Regression Model'):
     except Exception as e:
         st.error({e})
 
+st.subheader("TODO: Train a model or two of your choice!")
+
 st.write("\n")
 st.subheader("Decision Tree Classifier")
 st.caption("dtc = ?"

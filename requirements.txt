@@ -1,13 +1,7 @@
 streamlit
-streamlit-notebook
-streamlit-jupyter
 pandas
 numpy
 scikit-learn
 matplotlib
 seaborn
-plotly
-tensorflow
-jupyter
-scipy
 fpdf
