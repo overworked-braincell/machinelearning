@@ -10,3 +10,4 @@ plotly
 tensorflow
 jupyter
 scipy
+fpdf
