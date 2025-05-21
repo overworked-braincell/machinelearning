@@ -363,6 +363,8 @@ for title, content in code_section.items():
 st.header("2️⃣ Data Cleaning (Preprocessing)")
 st.subheader("\n 2-1. Drop the following columns: 'ID', 'Customer_ID', 'Type_of_Loan' \n")
 
+st.caption("\n You may need to rest if you have to run the query again. \n")
+
 st.write("Current Columns: ")
 cols = list(df.columns)
 st.write(cols)
@@ -377,7 +379,7 @@ if st.button("Reset Columns"):
         st.success("Data has been reset.")
         st.write("Data: ", df.head(1))
 
-drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'CUSTOMER_ID', 'Type_of_Loan' ",
+drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan' ",
                             value="""""")
 st.session_state["drop_columns_input"] = drop_columns
 st.markdown(""" REMINDER: 'df' is the name of your dataframe. """)
@@ -526,7 +528,7 @@ if st.button("Reset"):
         df = st.session_state.df.copy()
         st.success("Data has been reset.")
 
-st.header("3️Data Modeling")
+st.header("3️⃣ Data Modeling")
 st.caption("Training a Machine Learning Model")
 
 st.subheader("\n 3-1. Split the data into Train and Test sets. "
@@ -678,7 +680,7 @@ for title, content in model_section.items():
         st.markdown(content["description"])
         st.code(content["code"], language="python")
 
-st.subheader("5. Train/Test a Model")
+st.subheader("4️⃣ Train/Test a Model")
 st.caption("WARNING: DO NOT USE YOUR TEST DATA WHEN TRAINING YOUR MODEL")
 st.caption("Keep in mind: Predictor Values: 1 = 'Standard'; 2 ='Poor'; 3='Good'")
 st.subheader("Logistic Regression")
