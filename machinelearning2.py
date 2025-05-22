@@ -366,7 +366,7 @@ for title, content in code_section.items():
 st.header("2️⃣ Data Cleaning (Preprocessing)")
 st.subheader("\n 2-1. Drop the following columns: 'ID', 'Customer_ID', 'Type_of_Loan' \n")
 
-st.caption("\n You may need to rest if you have to run the query again. \n")
+st.markdown(""" REMINDER: 'df' is the name of your dataframe. """)
 
 st.write("Current Columns: ")
 cols = list(df.columns)
@@ -385,7 +385,8 @@ if st.button("Reset Columns"):
 drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan' ",
                             value="""""")
 st.session_state["drop_columns_input"] = drop_columns
-st.markdown(""" REMINDER: 'df' is the name of your dataframe. """)
+
+st.caption("\n You may need to reset if you have to run the query again. \n")
 
 ## Solution ##
 # df = df.drop(df.columns[[0, 1, 8]], axis=1)
@@ -447,7 +448,7 @@ if st.button("Reset Age"):
 st.subheader("\n 2-2. Drop the values that are greater than 100 [>100] and less than 1 [< 1] "
          "\n See your changes below with the diagram of your choice."
          "\n Plot the new values with the diagram of your choice.")
-st.caption("\n You may need to rest if you have to run the query again. \n")
+st.caption("\n You may need to reset if you have to run the query again. \n")
 drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ")
 st.session_state["drop_age_input"] = drop_age
 ## Solution ##
