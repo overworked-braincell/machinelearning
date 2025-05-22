@@ -272,16 +272,27 @@ code_section = {
         "code": """
         dataframe.value_counts()
         """},
-    "Drop Columns": {
-    "description": "Drop specified columns from the DataFrame",
+    "Drop": {
+    "description": "Drop",
     "code": """
-     ## @param axis - axis=1 drops columns; axis=0 drops rows  
+
+    ###  Drop specified columns from the DataFrame ###
+
+    ## @param axis - axis=1 drops columns; axis=0 drops rows  
     
     # You can drop the column via the name
     dataframe.drop(['Month', 'Name', 'SSN'], axis=1)
 
     # Or you can drop the column by the index
     dataframe = dataframe.drop(dataframe.columns[[0, 4, 8]], axis=1)
+
+    ###  Drop any value in 'Num_of_Loan' that is greater than 50  ###
+
+    ## .index extracts the index (row labels) of those filtered
+    ## @param inplace=True - modifies the original DataFrame directly (no new object)
+
+    dataframe.drop(dataframe[dataframe['Num_of_Loan'] > 50].index, inplace=True)
+
     """},
     "Convert Object to Numeric Type": {
     "description": "This code section converts the 'Age' column, which was originally an object type into a numeric type.",
@@ -321,14 +332,6 @@ code_section = {
     
     dataframe['Occupation_Code'] = dataframe['Occupation'] # copy the old column into 'Occupation_Code'
     dataframe['Occupation'], unqiue = pd.factorize(dataframe['Occupation'])
-    """},
-    "Drop Specific Values": {
-    "description": "This line of code drops any value in 'Num_of_Loan' that is greater than 50",
-    "code": """
-    ## .index extracts the index (row labels) of those filtered
-    ## @param inplace=True - modifies the original DataFrame directly (no new object)
-    
-    dataframe.drop(dataframe[dataframe['Num_of_Loan'] > 50].index, inplace=True)
     """},
     "Replace A Specific Values": {
     "description": "This line finds the string '!@9#%8' in the dataset and replaces the value with 'Undetermined'",
@@ -399,7 +402,7 @@ if st.button("Drop Columns"):
         updated_df = local_env.get("df", None) # updated df
         # check
         dropped_index = df.columns[[0,1,8]].tolist()
-        dropped = ['ID', 'CUSTOMER_ID', 'Type_of_Loan']
+        dropped = ['ID', 'Customer_ID', 'Type_of_Loan']
         cols = all(col not in df.columns for col in dropped)
         if updated_df is not None and cols or dropped_index:
             st.session_state.df = updated_df.copy()
@@ -538,7 +541,7 @@ st.markdown("X - Features  \n y - Target  \n test_size - percent that goes to th
             "X_train: training features (columns used to train the model)  "
             "\nX_test: testing features (same columns, but for evaluating the model)  "
             "\ny_train & y_test: the corresponding target (label) values for each  ")
-training_data = st.text_area("Hint: X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=??, random_state=??)",
+training_data = st.text_area("Hint: X_train, X_test, y_train, y_test = train_test_split(?, ?, test_size=??, random_state=??)",
                              value="""from sklearn.model_selection import train_test_split
 X = df[df.columns[:-1]].values # all values except the last column
 y = df[df.columns[-1]].values
