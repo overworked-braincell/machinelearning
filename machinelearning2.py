@@ -21,11 +21,6 @@ st.write("  =================================================================  "
 st.subheader("\n 0-1. Define the url and copy the correct link from your repository\n")
 st.caption("HINT: https://github.com/username/repo/blob/branch/filename.csv")
 
-## Solution ##
-# gitURL = 'https://github.com/btran17/machinelearning/blob/main/data/creditscore.csv'
-# url = github_url(gitURL)
-# df = pd.read_csv(url)
-
 if "df" not in st.session_state:
     st.session_state.df = None
 if "preprocessed_df" not in st.session_state:
@@ -388,10 +383,6 @@ st.session_state["drop_columns_input"] = drop_columns
 
 st.caption("\n You may need to reset if you have to run the query again. \n")
 
-## Solution ##
-# df = df.drop(df.columns[[0, 1, 8]], axis=1)
-# df = df.drop(['ID', 'Customer_ID', 'Type_of_Loan',], axis=1)
-
 if st.button("Drop Columns"):
     try:
         local_env = {"df": df.copy()}
@@ -451,9 +442,6 @@ st.subheader("\n 2-2. Drop the values that are greater than 100 [>100] and less 
 st.caption("\n You may need to reset if you have to run the query again. \n")
 drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ")
 st.session_state["drop_age_input"] = drop_age
-## Solution ##
-# df.drop(df[df['Age'] > 100].index, inplace=True)
-# df.drop(df[df['Age'] < 0].index, inplace=True)
 
 if st.button("Drop Age"):
     try:
@@ -548,12 +536,6 @@ X = df[df.columns[:-1]].values # all values except the last column
 y = df[df.columns[-1]].values
 \n## TODO: Enter your code below""", height=200)
 st.session_state["training_data_input"] = training_data
-# X = df[df.columns[:-1]].values
-# y = df[df.columns[-1]].values # or y = df['Credit_Score'].values
-
-## Solution ##
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=3)
-# X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, random_state=3)
 
 if st.button("Split Data"):
     try:
@@ -781,13 +763,6 @@ dtc =
 
 st.session_state["dtc_input"] = dtc
 
-## Sample Solution ##
-# dtc = DecisionTreeClassifier(max_depth=7, max_leaf_nodes=10,random_state=42)
-# dtc.fit(X_train, y_train)
-# ytrain_pred = dtc.predict(X_train)
-# accuracy = accuracy_score(y_train, ytrain_pred)
-
-
 if st.button("Submit Decision Tree Model"):
     try:
         df = st.session_state.get("df")
@@ -831,9 +806,6 @@ if st.button("Submit Decision Tree Model"):
 st.write("\n")
 dtc_score = st.text_area("Decision Tree Classifier", value="""""", height=68)
 st.session_state["dtc_score_input"] = dtc_score
-## Solution ##
-# y_pred = dtc.predict(X_test)
-# accuracy = accuracy_score(y_test, y_pred)
 
 if st.button("Score Decision Tree Model"):
     try:
@@ -898,12 +870,6 @@ rfc =
 """, height=180)
 st.session_state["rfc_input"] = rfc
 
-## Sample Solution ##
-# rfc = RandomForestClassifier(n_estimators=10,random_state=42)
-# rfc.fit(X_train, y_train)
-# ytrain_pred = rfc.predict(X_train)
-# accuracy = accuracy_score(y_train, ytrain_pred)
-
 if st.button("Submit Random Forest Model"):
     try:
         df = st.session_state.get("df")
@@ -956,9 +922,6 @@ if st.button("Submit Random Forest Model"):
 
 rfc_score = st.text_area("Score Random Forest Classifier", value="""""", height=68)
 st.session_state["rfc_score_input"] = rfc_score
-## Solution ##
-# y_pred = rfc.predict(X_test)
-# accuracy = accuracy_score(y_test, y_pred)
 
 if st.button("Score Random Forest Model"):
     try:
@@ -1022,11 +985,6 @@ from sklearn.metrics import accuracy_score, classification_report
 knn = 
 """, height=180)
 st.session_state["knn_input"] = knn
-## Sample Solution ##
-# knn = KNeighborsClassifier(n_neighbors=3)
-# knn.fit(X_train, y_train)
-# ytrain_pred = knn.predict(X_train)
-# accuracy = accuracy_score(y_train, ytrain_pred)
 
 if st.button("Submit KNN Model"):
     try:
@@ -1065,9 +1023,6 @@ if st.button("Submit KNN Model"):
 
 knn_score = st.text_area("Score K-Nearest Neighbor (KNN)", value="""""", height=68)
 st.session_state["knn_score_input"] = knn_score
-## Solution ##
-# y_pred = knn.predict(X_test)
-# accuracy = accuracy_score(y_test, y_pred)
 
 if st.button("Score KNN Model"):
     try:
