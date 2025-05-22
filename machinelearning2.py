@@ -272,8 +272,8 @@ code_section = {
         "code": """
         dataframe.value_counts()
         """},
-    "Drop": {
-    "description": "Drop Functionality: Specified Columns and Values",
+    "Drop Functionality": {
+    "description": "Drop Specified Columns and Values",
     "code": """
 
     ###  Drop specified columns from the DataFrame ###
