@@ -273,11 +273,8 @@ code_section = {
         dataframe.value_counts()
         """},
     "Drop": {
-    "description": "Drop",
+    "description": "Drop specified columns from the DataFrame or Drop any value in 'Num_of_Loan' that is greater than 50",
     "code": """
-
-    ###  Drop specified columns from the DataFrame ###
-
     ## @param axis - axis=1 drops columns; axis=0 drops rows  
     
     # You can drop the column via the name
@@ -286,7 +283,7 @@ code_section = {
     # Or you can drop the column by the index
     dataframe = dataframe.drop(dataframe.columns[[0, 4, 8]], axis=1)
 
-    ###  Drop any value in 'Num_of_Loan' that is greater than 50  ###
+    ###   ###
 
     ## .index extracts the index (row labels) of those filtered
     ## @param inplace=True - modifies the original DataFrame directly (no new object)
