@@ -281,7 +281,7 @@ code_section = {
     dataframe.drop(['Month', 'Name', 'SSN'], axis=1)
 
     # Or you can drop the column by the index
-    dataframe = dataframe.drop(df.columns[[0, 4, 8]], axis=1)
+    dataframe = dataframe.drop(dataframe.columns[[0, 4, 8]], axis=1)
     """},
     "Convert Object to Numeric Type": {
     "description": "This code section converts the 'Age' column, which was originally an object type into a numeric type.",
@@ -1148,7 +1148,7 @@ import datetime
 
 
 def generate_pdf():
-    pdf = FPDF(format='A4', orientation='L')
+    pdf = FPDF(format='A4', orientation='P')
     pdf.add_page()
     pdf.set_font("courier", size=12)
 
