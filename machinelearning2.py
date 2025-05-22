@@ -1192,8 +1192,8 @@ def generate_pdf():
         if isinstance(code, str) and code.strip():
             pdf.set_font("courier", style='B', size=12)
             pdf.multi_cell(0, 6, txt=f"{title}:\n{code}", align='L')
-            pdf.set_font("courier", size=12)
-            pdf.multi_cell(0, 6, txt=code, align='L')
+            # pdf.set_font("courier", size=12)
+            # pdf.multi_cell(0, 6, txt=code, align='L')
             pdf.ln(3)
 
     # add session values
