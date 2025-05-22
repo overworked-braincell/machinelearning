@@ -1148,7 +1148,7 @@ import datetime
 
 
 def generate_pdf():
-    pdf = FPDF()
+    pdf = FPDF(format='A4', orientation='L')
     pdf.add_page()
     pdf.set_font("courier", size=12)
 
