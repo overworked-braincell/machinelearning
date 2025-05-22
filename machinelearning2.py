@@ -1192,14 +1192,14 @@ def generate_pdf():
         if isinstance(code, str) and code.strip():
             pdf.set_font("courier", style='B', size=12)
             pdf.multi_cell(0, 6, txt=f"{title}:\n{code}", align='L')
-            # pdf.set_font("courier", size=12)
-            # pdf.multi_cell(0, 6, txt=code, align='L')
+            pdf.set_font("courier", size=12)
+            pdf.multi_cell(0, 6, txt=code, align='L')
             pdf.ln(3)
 
     # add session values
     for key in st.session_state:
         if isinstance(st.session_state[key], (int, float, str)):
-            pdf.cell(200, 10, txt=f"{key}: {st.session_state[key]}", ln=True)
+            pdf.cell(0, 10, txt=f"{key}: {st.session_state[key]}", ln=True)
 
     filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     pdf.output(filename)
