@@ -447,7 +447,7 @@ if st.button("Reset Age"):
 st.subheader("\n 2-2. Drop the values that are greater than 100 [>100] and less than 1 [< 1] "
          "\n See your changes below with the diagram of your choice."
          "\n Plot the new values with the diagram of your choice.")
-
+st.caption("\n You may need to rest if you have to run the query again. \n")
 drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ")
 st.session_state["drop_age_input"] = drop_age
 ## Solution ##
@@ -759,9 +759,9 @@ st.subheader("TODO: Train a model or two of your choice!")
 st.write("\n")
 st.subheader("Decision Tree Classifier")
 st.caption("dtc = ?"
-           "dtc.fit(?, ?)"
-           "ytrain_pred = dtc.predict(?)"
-           "accuracy = accuracy_score(?, ?)")
+           "\ndtc.fit(?, ?)"
+           "\nytrain_pred = dtc.predict(?)"
+           "\naccuracy = accuracy_score(?, ?)")
 dtc = st.text_area("TODO: Enter your code below for the: Decision Tree Classifier\n"
                 "\n\t Parameters:"
                 "\n\t random_state: for reproducibility; ensures the same training result is obtained every time you run the code  "
