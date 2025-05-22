@@ -757,12 +757,14 @@ if st.button('Score Logistic Regression Model'):
 
 st.subheader("TODO: Train a model or two of your choice!")
 
+st.caption("Example: "
+           "\ndtc = ?  \n"
+           "\ndtc.fit(?, ?)  \n"
+           "\nytrain_pred = dtc.predict(?)  \n"
+           "\naccuracy = accuracy_score(?, ?)  \n")
+
 st.write("\n")
 st.subheader("Decision Tree Classifier")
-st.caption("dtc = ?"
-           "\ndtc.fit(?, ?)"
-           "\nytrain_pred = dtc.predict(?)"
-           "\naccuracy = accuracy_score(?, ?)")
 dtc = st.text_area("TODO: Enter your code below for the: Decision Tree Classifier\n"
                 "\n\t Parameters:"
                 "\n\t random_state: for reproducibility; ensures the same training result is obtained every time you run the code  "
@@ -1156,7 +1158,7 @@ def generate_pdf():
     pdf.add_page()
     pdf.set_font("courier", size=12)
 
-    pdf.cell(200, 10, txt="Model Results Report", ln=True, align='C')
+    pdf.cell(0, 10, txt="Model Results Report", ln=True, align='C')
     pdf.ln(10)
 
     # include accuracies if available
@@ -1166,6 +1168,7 @@ def generate_pdf():
         accuracy = st.session_state.get(model_key)
         if accuracy is not None:
             model_name = model_key.replace("_model_accuracy", "").upper()
+            pdf.cell(0, 10, txt=f"{model_name} Accuracy: {accuracy}", ln=True, align='C')
 
     # user input
     text_inputs = {
@@ -1187,17 +1190,20 @@ def generate_pdf():
 
     for title, code in text_inputs.items():
         if isinstance(code, str) and code.strip():
-            pdf.multi_cell(0, 5, txt=f"{title}:\n{code}")
-            pdf.ln(5)
+            pdf.set_font("courier", style='B', size=12)
+            pdf.multi_cell(0, 6, txt=f"{title}:\n{code}", align='L')
+            pdf.set_font("courier", size=12)
+            pdf.multi_cell(0, 6, txt=code, align='L')
+            pdf.ln(3)
 
     # add session values
     for key in st.session_state:
         if isinstance(st.session_state[key], (int, float, str)):
             pdf.cell(200, 10, txt=f"{key}: {st.session_state[key]}", ln=True)
 
-    filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
-    pdf.output(filename)
-    return filename
+    # filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    # pdf.output(filename)
+    # return filename
 
 if st.button("Generate PDF"):
     file_path = generate_pdf()
