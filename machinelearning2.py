@@ -757,11 +757,11 @@ if st.button('Score Logistic Regression Model'):
 
 st.subheader("TODO: Train a model or two of your choice!")
 
-st.caption("Example: "
-           "\ndtc = ?  \n"
-           "\ndtc.fit(?, ?)  \n"
-           "\nytrain_pred = dtc.predict(?)  \n"
-           "\naccuracy = accuracy_score(?, ?)  \n")
+st.caption("Example Skeleton: \n"
+           "\n model = model(parameters) \n"
+           "\n model.fit(?, ?)  \n"
+           "\n ytrain_pred = model.predict(?)  \n"
+           "\n accuracy = accuracy_score(?, ?)  \n")
 
 st.write("\n")
 st.subheader("Decision Tree Classifier")
@@ -1201,9 +1201,9 @@ def generate_pdf():
         if isinstance(st.session_state[key], (int, float, str)):
             pdf.cell(200, 10, txt=f"{key}: {st.session_state[key]}", ln=True)
 
-    # filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
-    # pdf.output(filename)
-    # return filename
+    filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    pdf.output(filename)
+    return filename
 
 if st.button("Generate PDF"):
     file_path = generate_pdf()
