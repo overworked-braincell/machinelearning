@@ -11,7 +11,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 st.set_page_config(page_title="Intern Game Day", layout="wide")
-st.title("(☞ﾟヮﾟ)☞ Machine Learning ☜(ﾟヮﾟ☜)")
+# st.title("(☞ﾟヮﾟ)☞ Machine Learning ☜(ﾟヮﾟ☜)")
+# st.title("Machine Learning")
 st.caption("streamlit version = {}".format(st.__version__))
 # st.write("[docs.streamlit.io](https://docs.streamlit.io/)")
 st.write("  =================================================================  ")
