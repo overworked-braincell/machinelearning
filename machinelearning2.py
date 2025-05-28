@@ -252,7 +252,7 @@ st.header("Data visualizations")
 
 st.caption("Predictor Values:  \n"
            "1 = 'Standard'  \n" 
-           "2 ='Poor'  \n" 
+           "2 = 'Poor'  \n" 
            "3 = 'Good'  ")
 
 visualizations = ["Select a Visualization", "Heatmap",
@@ -302,7 +302,7 @@ code_section = {
     ## @param axis - axis=1 drops columns; axis=0 drops rows  
     
     # You can drop the column via the name
-    dataframe.drop(['Month', 'Name', 'SSN'], axis=1)
+    dataframe = dataframe.drop(['Month', 'Name', 'SSN'], axis=1)
 
     # Or you can drop the column by the index
     dataframe = dataframe.drop(dataframe.columns[[0, 4, 8]], axis=1)
@@ -410,6 +410,9 @@ st.session_state["drop_columns_input"] = drop_columns
 
 st.caption("\n You may need to reset if you have to run the query again. \n")
 
+# if "drop_columns_complete" not in st.session_state:
+#     st.session_state.drop_columns_complete = False
+
 if st.button("Drop Columns"):
     try:
         local_env = {"df": df.copy()}
@@ -430,6 +433,7 @@ if st.button("Drop Columns"):
             cols = list(updated_df.columns)
             st.text(cols)
             df = st.session_state.df.copy()
+            # st.session_state.drop_columns_complete = True
         else:
             st.error("Make sure you are assigning the result to `df` and the columns are dropped")
     except Exception as e:
@@ -470,6 +474,9 @@ drop_age = st.text_area("TODO: Drop the all values greater than 100 and less tha
 st.caption("\n You may need to reset if you have to run the query again. \n")
 st.session_state["drop_age_input"] = drop_age
 
+# if "drop_age_complete" not in st.session_state:
+#     st.session_state.drop_age_complete = False
+
 if st.button("Drop Age"):
     try:
         local_env = {"df": df.copy()}
@@ -482,6 +489,7 @@ if st.button("Drop Age"):
             st.success("Age Values Dropped.")
             st.write("After: ", updated_df['Age'].describe())
             df = st.session_state.df.copy()
+            # st.session_state.drop_age_complete = True
         else:
             st.error("Could not update the DataFrame. \nMake sure your code modifies the variable `df` "
                      "and does not contain any errors.")
@@ -516,6 +524,26 @@ if st.button("Reset"):
 
 st.header("3️⃣ Data Modeling")
 st.caption("Training a Machine Learning Model")
+
+## Sample
+
+# Use preprocessed data *only if* both drop steps were done
+# default = st.session_state.get("drop_columns_complete", False) and st.session_state.get("drop_age_complete", False)
+# clean_df = st.checkbox("Skip", value=default)
+
+# if 'df' in st.session_state and st.session_state['df'] is not None:
+#     original_df = st.session_state['df'].copy()
+
+#     # Try to use cleaned_df if it exists
+#     if clean_df and 'clean_df' in st.session_state:
+#         df = st.session_state['clean_df'].copy()
+#     else:
+#         drop = ['ID', 'Customer_ID', 'Type_of_Loan']
+#         df = df.drop(columns=[col for col in drop if col in df.columns], errors='ignore')
+#         if 'Age' in df.columns:
+#             df = df[(df['Age'] <= 100) & (df['Age'] >= 0)]
+#         df = df.select_dtypes(include=['number']).dropna()
+
 
 st.subheader("\n 3-1. Split the data into Train and Test sets. "
              "\n\n Using the 70/30 split -- 70% (train) /30% (test)")
@@ -722,6 +750,7 @@ if st.button('Score Logistic Regression Model'):
         logr = st.session_state['logr']
         y_pred = logr.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
+        st.session_state['logr_model_score'] = accuracy
         st.write("Test Accuracy: ", accuracy)
 
         report = classification_report(y_test, y_pred, output_dict=True)
@@ -828,6 +857,7 @@ if st.button("Score Decision Tree Model"):
             dtc = st.session_state['dtc']
             y_pred = model.predict(X_test)
             accuracy = accuracy_score(y_test, y_pred)
+            st.session_state['dtc_model_score'] = accuracy
             st.success(f"Test Accuracy: {accuracy:.2f}")
 
             # Visualize Tree
@@ -944,6 +974,7 @@ if st.button("Score Random Forest Model"):
             rfc = st.session_state['rfc']
             y_pred = model.predict(X_test)
             accuracy = accuracy_score(y_test, y_pred)
+            st.session_state['rfc_model_score'] = accuracy
             st.success(f"Test Accuracy: {accuracy:.2f}")
 
             sig = model.feature_importances_
@@ -1045,6 +1076,7 @@ if st.button("Score KNN Model"):
             knn = st.session_state['knn']
             y_pred = model.predict(X_test)
             accuracy = accuracy_score(y_test, y_pred)
+            st.session_state['knn_model_score'] = accuracy
             st.success(f"Test Accuracy: {accuracy:.2f}")
 
             st.write("(Optional) Classification Report for KNN")
@@ -1067,36 +1099,36 @@ st.subheader("Model Accuracy Comparison")
 
 # Collect all accuracies
 model_accuracies = {
-    "Logistic Regression": st.session_state.get("logr_model_accuracy"),
-    "Decision Tree": st.session_state.get("dtc_model_accuracy"),
-    "Random Forest": st.session_state.get("rfc_model_accuracy"),
-    "KNN": st.session_state.get("knn_model_accuracy")
+    "Logistic Regression Train": st.session_state.get("logr_model_accuracy"),
+    "Logistic Regression Test": st.session_state.get("logr_model_score"),
+    "Decision Tree Train": st.session_state.get("dtc_model_accuracy"),
+    "Decision Tree Test": st.session_state.get("dtc_model_score"),
+    "Random Forest Train": st.session_state.get("rfc_model_accuracy"),
+    "Random Forest Test": st.session_state.get("rfc_model_score"),
+    "KNN Train": st.session_state.get("knn_model_accuracy"),
+    "KNN Test": st.session_state.get("knn_model_score")
 }
 
 # Remove any models that weren't trained (i.e., have None as accuracy)
 filtered = {k: v for k, v in model_accuracies.items() if v is not None}
 
 if filtered:
-    # Optional textual summary
     st.markdown("Trained Models & Accuracies:")
     for model, acc in filtered.items():
         st.write(f"- **{model}**: {acc:.2f}")
 
     acc_df = pd.DataFrame(list(filtered.items()), columns=["Model", "Accuracy"])
 
-    # Plot bar chart
     fig, ax = plt.subplots()
     sns.barplot(x="Accuracy", y="Model", data=acc_df, palette="viridis", ax=ax)
     ax.set_xlim(0, 1)
     ax.set_title("Accuracy Comparison Across Models")
 
-    # Annotate bars with accuracy values
     for i, (model, accuracy) in enumerate(filtered.items()):
         ax.text(accuracy + 0.01, i, f"{accuracy:.2f}", va='center')
 
     st.pyplot(fig)
 
-    # Table
     st.write("Accuracy Table")
     st.dataframe(acc_df.style.format({"Model Accuracy": "{:.2f}"}))
 
@@ -1106,60 +1138,75 @@ else:
 from fpdf import FPDF
 import datetime
 
-
 def generate_pdf():
     pdf = FPDF(format='A4', orientation='P')
     pdf.add_page()
     pdf.set_font("courier", size=12)
 
-    pdf.cell(0, 10, txt="Model Results Report", ln=True, align='C')
-    pdf.ln(10)
+    pdf.cell(0, 10, txt="Code Report", ln=True, align='C')
+    # team_color = st.session_state.get("team", "")
+    # pdf.cell(0, 10, txt=f"{team_color} Results Report", ln=True, align='C')
+    # pdf.ln(8)
+    pdf.cell(0, 5, txt="Model Results Report", ln=True, align='L')
+    pdf.ln(5)
 
     # include accuracies if available
-    models = ["logr_model_accuracy", "dtc_model_accuracy", "rfc_model_accuracy", "knn_model_accuracy"]
+    models = ["logr_model_accuracy", "dtc_model_accuracy", "rfc_model_accuracy", "knn_model_accuracy",
+              "logr_model_score", "dtc_model_score", "rfc_model_score", "knn_model_score"]
 
     for model_key in models:
         accuracy = st.session_state.get(model_key)
         if accuracy is not None:
-            model_name = model_key.replace("_model_accuracy", "").upper()
-            pdf.cell(0, 10, txt=f"{model_name} Accuracy: {accuracy}", ln=True, align='C')
+            model_name = model_key.replace("_model", "").upper()
+            pdf.cell(0, 2, txt=f"{model_name}: {accuracy}", ln=True, align='L')
+            pdf.ln(5)
 
     # user input
     text_inputs = {
         "LINK": st.session_state.get("link", ""),
-        "VIEW DATASET": st.session_state.get("viewdf", ""),
-        "DESCRIBE DATASET": st.session_state.get("df_sum", ""),
-        "DROP COLUMN": st.session_state.get("drop_columns", ""),
-        "DROP VALUES": st.session_state.get("drop_age", ""),
-        "SPLIT DATA": st.session_state.get("training_data", ""),
-        # "LOGISTIC REGRESSION TRAIN": st.session_state.get("logr", ""),
-        "DECISION TREE TRAIN": st.session_state.get("dtc", ""),
-        "RANDOM FOREST TRAIN": st.session_state.get("rfc", ""),
-        "KNN TRAIN": st.session_state.get("knn", ""),
-        # "LOGISTIC REGRESSION TEST": st.session_state.get("logr_score", ""),
-        "DECISION TREE TEST": st.session_state.get("dtc_score", ""),
-        "RANDOM FOREST TEST": st.session_state.get("rfc_score", ""),
-        "KNN TEST": st.session_state.get("knn_score", ""),
+        "VIEW-DATASET": st.session_state.get("viewdf", ""),
+        "DESCRIBE-DATASET": st.session_state.get("df_sum", ""),
+        "DROP-COLUMN": st.session_state.get("drop_columns", ""),
+        "DROP-VALUES": st.session_state.get("drop_age", ""),
+        "SPLIT-DATA": st.session_state.get("training_data", ""),
+        # "LOGISTIC-REGRESSION-TRAIN": st.session_state.get("logr", ""),
+        # "LOGISTIC-REGRESSION-TEST": st.session_state.get("logr_score", ""),
+        "DECISION-TREE-TRAIN": st.session_state.get("dtc", ""),
+        "DECISION-TREE-TEST": st.session_state.get("dtc_score", ""),
+        "RANDOM-FOREST-TRAIN": st.session_state.get("rfc", ""),
+        "RANDOM-FOREST-TEST": st.session_state.get("rfc_score", ""),
+        "KNN-TRAIN": st.session_state.get("knn", ""),
+        "KNN-TEST": st.session_state.get("knn_score", ""),
     }
 
     for title, code in text_inputs.items():
+        print(f"{title} -> {repr(content)}")
         if isinstance(code, str) and code.strip():
-            pdf.set_font("courier", style='B', size=12)
-            pdf.multi_cell(0, 6, txt=f"{title}:\n{code}", align='L')
+            code = str(code)
+            pdf.set_font("courier", size=12, style='B')
+            pdf.multi_cell(0, 8, f"{title}:\n", align='L')
             pdf.set_font("courier", size=12)
-            pdf.multi_cell(0, 6, txt=code, align='L')
-            pdf.ln(3)
+            pdf.multi_cell(0, 6, str(code), align='L')
 
+            pdf.ln(3)
+    
     # add session values
     for key in st.session_state:
         if isinstance(st.session_state[key], (int, float, str)):
-            pdf.cell(0, 10, txt=f"{key}: {st.session_state[key]}", ln=True)
+            pdf.cell(0, 10, txt=f"{key}: {st.session_state[key]}", ln=True, align='L')
 
-    filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
-    pdf.output(filename)
-    return filename
+    # filename = f"report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    # pdf.output(filename)
+    # return filename
+
+# if st.button("Generate PDF"):
+#     file_path = generate_pdf()
+#     with open(file_path, "rb") as file:
+#         st.download_button("Download Report", data=file, file_name="model_report.pdf", mime="application/pdf")
+
+    return pdf.output(dest='S').encode('latin1')
 
 if st.button("Generate PDF"):
-    file_path = generate_pdf()
-    with open(file_path, "rb") as file:
-        st.download_button("Download Report", data=file, file_name="model_report.pdf", mime="application/pdf")
+    pdfData = generate_pdf()
+    st.download_button("Download Report", data=pdfData, file_name=f"model_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf", mime="application/pdf")
+    # st.download_button("Download Report", data=pdfData, file_name=f"{team_color}_model_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf", mime="application/pdf")
