@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score, classification_report
 
 st.set_page_config(page_title="Intern Game Day", layout="wide")
 # st.title("(☞ﾟヮﾟ)☞ Machine Learning ☜(ﾟヮﾟ☜)")
-# st.title("Machine Learning")
+st.title("Machine Learning")
 st.caption("streamlit version = {}".format(st.__version__))
 # st.write("[docs.streamlit.io](https://docs.streamlit.io/)")
 st.write("  =================================================================  ")
@@ -218,7 +218,7 @@ st.header("1️⃣ Data Preview & Exploration")
 # st.dataframe(df.head())
 
 st.subheader("You will be using the variable 'df' when working with the data set")
-st.caption("For example: ")
+st.caption("You can run these examples below to get a preview of the dataset. ")
 viewdf = st.text_area("To view your dataset: enter: df.head() ",
                             value="""""", height=68)
 st.session_state["viewdf_input"] = viewdf
@@ -248,18 +248,43 @@ if st.button("Describe"):
     except Exception as e:
         st.error({e})
 
-# code = st.text_area("Code Area: ", value="""""", height=68)
-# if st.button("Run Code"):
-#     try:
-#         local_env = {"df": df.copy()}
-#         res = eval(code, {}, local_env)
-#         if isinstance(res, pd.DataFrame):
-#             st.write(res)
-#             st.session_state.res = res
-#         else:
-#             st.write(res)
-#     except Exception as e:
-#         st.error({e})
+st.header("Data visualizations")
+
+st.caption("Predictor Values:  \n"
+           "1 = 'Standard'  \n" 
+           "2 ='Poor'  \n" 
+           "3 = 'Good'  ")
+
+visualizations = ["Select a Visualization", "Heatmap",
+           "Countplot: Occupation vs Credit Score",
+           "Countplot: Payment Behaviour vs Credit Score"]
+
+select = st.selectbox("Choose a Visualization: ", visualizations)
+
+if select == "Heatmap":
+    heatmap = plt.figure(figsize=(18,10))
+    sns.heatmap(df.select_dtypes(include='number').corr(),annot=True,linewidths=True)
+    st.pyplot(heatmap)
+elif select == "Countplot: Occupation vs Credit Score":
+    countplot, ax4 = plt.subplots(figsize=(12, 6))
+    sns.countplot(x='Occupation', hue='Credit_Score', data=df)
+    plt.xlabel('Occupation')
+    plt.xticks(rotation=50)
+    plt.title('Occupation vs Credit Score')
+    plt.legend(title='Occupation vs Credit Score')
+    plt.grid(True)
+    plt.tight_layout()
+    st.pyplot(countplot)
+elif select == "Countplot: Payment Behaviour vs Credit Score":
+    countplot2, ax5 = plt.subplots(figsize=(12, 6))
+    sns.countplot(x='Payment_Behaviour', hue='Credit_Score', data=df)
+    plt.xlabel('Payment_Behaviour')
+    plt.xticks(rotation=20)
+    plt.title('Payment Behaviour vs Credit Score')
+    plt.legend(title='Payment Behaviour vs Credit Score')
+    plt.grid(True)
+    plt.tight_layout()
+    st.pyplot(countplot2)
 
 st.subheader("Example code for references: ")
 code_section = {
@@ -362,7 +387,7 @@ for title, content in code_section.items():
 st.header("2️⃣ Data Cleaning (Preprocessing)")
 st.subheader("\n 2-1. Drop the following columns: 'ID', 'Customer_ID', 'Type_of_Loan' \n")
 
-st.markdown(""" REMINDER: 'df' is the name of your dataframe. """)
+# st.markdown(""" REMINDER: 'df' is the name of your dataframe. """)
 
 st.write("Current Columns: ")
 cols = list(df.columns)
@@ -378,7 +403,8 @@ if st.button("Reset Columns"):
         st.success("Data has been reset.")
         st.write("Data: ", df.head(1))
 
-drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan' ",
+drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan'  \n" \
+                            "\nREMINDER: 'df' is the name of your dataframe. ",
                             value="""""")
 st.session_state["drop_columns_input"] = drop_columns
 
@@ -408,7 +434,7 @@ if st.button("Drop Columns"):
             st.error("Make sure you are assigning the result to `df` and the columns are dropped")
     except Exception as e:
         st.error({e})
-        st.write("Session State Debug:", st.session_state)
+        # st.write("Session State Debug:", st.session_state)
 
 st.subheader("In this dataset, there are values in the 'Age' column that makes no sense.\n")
 st.caption("See the histogram and boxplot below: \n\n")
@@ -440,8 +466,8 @@ if st.button("Reset Age"):
 st.subheader("\n 2-2. Drop the values that are greater than 100 [>100] and less than 1 [< 1] "
          "\n See your changes below with the diagram of your choice."
          "\n Plot the new values with the diagram of your choice.")
-st.caption("\n You may need to reset if you have to run the query again. \n")
 drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ")
+st.caption("\n You may need to reset if you have to run the query again. \n")
 st.session_state["drop_age_input"] = drop_age
 
 if st.button("Drop Age"):
@@ -461,7 +487,7 @@ if st.button("Drop Age"):
                      "and does not contain any errors.")
     except Exception as e:
         st.error({e})
-        st.write("Session State Debug:", st.session_state)
+        # st.write("Session State Debug:", st.session_state)
 
 ageDiagram = ["Select a chart", "Histogram", "Boxplot"]
 
@@ -480,39 +506,6 @@ elif choice == "Boxplot":
         ax3.set_title("Age Distribution")
         ax3.set_xlabel("Age")
         st.pyplot(fig3)
-
-st.header("Data visualizations")
-
-visualizations = ["Select a Visualization", "Heatmap",
-           "Countplot: Occupation vs Credit Score",
-           "Countplot: Payment Behaviour vs Credit Score"]
-
-select = st.selectbox("Choose a Visualization: ", visualizations)
-
-if select == "Heatmap":
-    heatmap = plt.figure(figsize=(18,10))
-    sns.heatmap(df.select_dtypes(include='number').corr(),annot=True,linewidths=True)
-    st.pyplot(heatmap)
-elif select == "Countplot: Occupation vs Credit Score":
-    countplot, ax4 = plt.subplots(figsize=(12, 6))
-    sns.countplot(x='Occupation', hue='Credit_Score', data=df)
-    plt.xlabel('Occupation')
-    plt.xticks(rotation=50)
-    plt.title('Occupation vs Credit Score')
-    plt.legend(title='Occupation vs Credit Score')
-    plt.grid(True)
-    plt.tight_layout()
-    st.pyplot(countplot)
-elif select == "Countplot: Payment Behaviour vs Credit Score":
-    countplot2, ax5 = plt.subplots(figsize=(12, 6))
-    sns.countplot(x='Payment_Behaviour', hue='Credit_Score', data=df)
-    plt.xlabel('Payment_Behaviour')
-    plt.xticks(rotation=20)
-    plt.title('Payment Behaviour vs Credit Score')
-    plt.legend(title='Payment Behaviour vs Credit Score')
-    plt.grid(True)
-    plt.tight_layout()
-    st.pyplot(countplot2)
 
 # reset to the original loaded data
 if st.button("Reset"):
@@ -537,6 +530,10 @@ X = df[df.columns[:-1]].values # all values except the last column
 y = df[df.columns[-1]].values
 \n## TODO: Enter your code below""", height=200)
 st.session_state["training_data_input"] = training_data
+
+# X = df[df.columns[:-1]].values
+# y = df[df.columns[-1]].values # or y = df['Credit_Score'].values
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=3)
 
 if st.button("Split Data"):
     try:
@@ -669,7 +666,8 @@ for title, content in model_section.items():
 
 st.subheader("4️⃣ Train/Test a Model")
 st.caption("WARNING: DO NOT USE YOUR TEST DATA WHEN TRAINING YOUR MODEL")
-st.caption("Keep in mind: Predictor Values: 1 = 'Standard'; 2 ='Poor'; 3='Good'")
+st.caption("WARNING: DO NOT USE YOUR TEST DATA WHEN TRAINING YOUR MODEL")
+st.caption("Keep in mind: Predictor Values: 1 = 'Standard'; 2 = 'Poor'; 3 = 'Good'")
 st.subheader("Logistic Regression")
 logr = st.code("from sklearn.linear_model import LogisticRegression"
         "\nfrom sklearn.metrics import accuracy_score, confusion_matrix, classification_report"
