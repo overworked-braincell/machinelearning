@@ -19,7 +19,8 @@ st.write("  =================================================================  "
 st.header(" 🧠 Credit Score Classification 🧠 ")
 st.write("  =================================================================  ")
 
-st.subheader("\n 0-1. Define the url and copy the correct link from your repository\n")
+st.subheader("\n 0-1. Define the url and copy the correct link from the following repository\n")
+st.markdown("Navigate to this URL [GitHub](https://github.com/overworked-braincell/machinelearning)")
 st.caption("HINT: https://github.com/username/repo/blob/branch/filename.csv")
 
 if "df" not in st.session_state:
