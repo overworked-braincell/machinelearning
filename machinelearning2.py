@@ -1165,31 +1165,33 @@ def generate_pdf():
     # user input
     text_inputs = {
         "LINK": st.session_state.get("link", ""),
-        "VIEW-DATASET": st.session_state.get("viewdf", ""),
-        "DESCRIBE-DATASET": st.session_state.get("df_sum", ""),
-        "DROP-COLUMN": st.session_state.get("drop_columns", ""),
-        "DROP-VALUES": st.session_state.get("drop_age", ""),
-        "SPLIT-DATA": st.session_state.get("training_data", ""),
+        "VIEW-DATASET": st.session_state.get("viewdf_input", ""),
+        "DESCRIBE-DATASET": st.session_state.get("df_sum_input", ""),
+        "DROP-COLUMN": st.session_state.get("drop_columns_input", ""),
+        "DROP-VALUES": st.session_state.get("drop_age_input", ""),
+        "SPLIT-DATA": st.session_state.get("training_data_input", ""),
         # "LOGISTIC-REGRESSION-TRAIN": st.session_state.get("logr", ""),
         # "LOGISTIC-REGRESSION-TEST": st.session_state.get("logr_score", ""),
-        "DECISION-TREE-TRAIN": st.session_state.get("dtc", ""),
-        "DECISION-TREE-TEST": st.session_state.get("dtc_score", ""),
-        "RANDOM-FOREST-TRAIN": st.session_state.get("rfc", ""),
-        "RANDOM-FOREST-TEST": st.session_state.get("rfc_score", ""),
-        "KNN-TRAIN": st.session_state.get("knn", ""),
-        "KNN-TEST": st.session_state.get("knn_score", ""),
+        "DECISION-TREE-TRAIN": st.session_state.get("dtc_input", ""),
+        "DECISION-TREE-TEST": st.session_state.get("dtc_score_input", ""),
+        "RANDOM-FOREST-TRAIN": st.session_state.get("rfc_input", ""),
+        "RANDOM-FOREST-TEST": st.session_state.get("rfc_score_input", ""),
+        "KNN-TRAIN": st.session_state.get("knn_input", ""),
+        "KNN-TEST": st.session_state.get("knn_score_input", ""),
     }
 
     for title, code in text_inputs.items():
         print(f"{title} -> {repr(content)}")
         if isinstance(code, str) and code.strip():
             code = str(code)
+            pdf.set_right_margin(-1)
             pdf.set_font("courier", size=12, style='B')
             pdf.multi_cell(0, 8, f"{title}:\n", align='L')
             pdf.set_font("courier", size=12)
             pdf.multi_cell(0, 6, str(code), align='L')
-
             pdf.ln(3)
+    
+    pdf.add_page()
     
     # add session values
     for key in st.session_state:
