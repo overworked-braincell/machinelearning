@@ -406,7 +406,7 @@ if st.button("Reset Columns"):
 
 drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan'  \n" \
                             "\nREMINDER: 'df' is the name of your dataframe. ",
-                            value="""""")
+                            value="""## TODO: Enter your code below \n""")
 st.session_state["drop_columns_input"] = drop_columns
 
 st.caption("\n You may need to reset if you have to run the query again. \n")
@@ -787,6 +787,7 @@ dtc = st.text_area("TODO: Enter your code below for the: Decision Tree Classifie
                 "\n\t splitter: choose the split at each node (options: 'best' (default); 'random')"
                    ,value="""from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
+## TODO: Enter your code below \n
 dtc = 
 """, height=150)
 
@@ -833,7 +834,7 @@ if st.button("Submit Decision Tree Model"):
             st.error({e})
 
 st.write("\n")
-dtc_score = st.text_area("Decision Tree Classifier", value="""""", height=68)
+dtc_score = st.text_area("Decision Tree Classifier", value="""## TODO: Enter your code below \n""", height=68)
 st.session_state["dtc_score_input"] = dtc_score
 
 if st.button("Score Decision Tree Model"):
@@ -896,6 +897,7 @@ rfc = st.text_area("TODO: Enter your code below for the: Random Forest Classifie
                 "\n\t bootstrap: whether bootstrap samples are used (default: True)"
                    ,value="""from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
+## TODO: Enter your code below \n
 rfc =
 """, height=180)
 st.session_state["rfc_input"] = rfc
@@ -950,7 +952,7 @@ if st.button("Submit Random Forest Model"):
     except Exception as e:
             st.error({e})
 
-rfc_score = st.text_area("Score Random Forest Classifier", value="""""", height=68)
+rfc_score = st.text_area("Score Random Forest Classifier", value="""## TODO: Enter your code below \n""", height=68)
 st.session_state["rfc_score_input"] = rfc_score
 
 if st.button("Score Random Forest Model"):
@@ -1013,6 +1015,7 @@ knn = st.text_area("TODO: Enter your code below for the: K-Nearest Neighbor (KNN
                 "\n\t metric: 'euclidean', 'manhatten', 'chebyshev'  "
                    , value="""from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
+## TODO: Enter your code below \n
 knn = 
 """, height=180)
 st.session_state["knn_input"] = knn
@@ -1052,7 +1055,7 @@ if st.button("Submit KNN Model"):
     except Exception as e:
             st.error({e})
 
-knn_score = st.text_area("Score K-Nearest Neighbor (KNN)", value="""""", height=68)
+knn_score = st.text_area("Score K-Nearest Neighbor (KNN)", value="""## TODO: Enter your code below \n""", height=68)
 st.session_state["knn_score_input"] = knn_score
 
 if st.button("Score KNN Model"):
