@@ -19,6 +19,12 @@ st.write("  =================================================================  "
 st.header(" 🧠 Credit Score Classification 🧠 ")
 st.write("  =================================================================  ")
 
+# Team color selection dropdown
+team_colors = ["Red", "Blue", "Green", "Yellow"]
+team_color = st.selectbox("Select your team color:", team_colors)
+st.session_state["team_color"] = team_color
+st.write(f"Selected Team: {st.session_state['team_color']}")
+
 st.subheader("\n 0-1. Define the url and copy the correct link from the following repository\n")
 st.markdown("Navigate to this URL [GitHub](https://github.com/overworked-braincell/machinelearning)")
 st.caption("HINT: https://github.com/username/repo/blob/branch/filename.csv")
@@ -1148,9 +1154,9 @@ def generate_pdf():
     pdf.set_font("courier", size=12)
 
     pdf.cell(0, 10, txt="Code Report", ln=True, align='C')
-    # team_color = st.session_state.get("team", "")
-    # pdf.cell(0, 10, txt=f"{team_color} Results Report", ln=True, align='C')
-    # pdf.ln(8)
+    team_color = st.session_state.get("team_color", "")
+    pdf.cell(0, 10, txt=f"{team_color} Team Results Report", ln=True, align='C')
+    pdf.ln(8)
     pdf.cell(0, 5, txt="Model Results Report", ln=True, align='L')
     pdf.ln(5)
 
