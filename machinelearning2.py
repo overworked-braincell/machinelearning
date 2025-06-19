@@ -411,7 +411,7 @@ if st.button("Reset Columns"):
         st.write("Data: ", df.head(1))
 
 drop_columns = st.text_area("TODO: Drop the columns: 'ID', 'Customer_ID', 'Type_of_Loan'  \n" \
-                            "\nREMINDER: 'df' is the name of your dataframe. ",
+                            "\nREMINDER: 'df' is the name of your dataframe. df = ? ",
                             value="""## TODO: Enter your code below \n""")
 st.session_state["drop_columns_input"] = drop_columns
 
@@ -477,7 +477,7 @@ if st.button("Reset Age"):
 st.subheader("\n 2-2. Drop the values that are greater than 100 [>100] and less than 1 [< 1] "
          "\n See your changes below with the diagram of your choice."
          "\n Plot the new values with the diagram of your choice.")
-drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ")
+drop_age = st.text_area("TODO: Drop the all values greater than 100 and less than 1: ", value="""## TODO: Enter your code below \n""")
 st.caption("\n You may need to reset if you have to run the query again. \n")
 st.session_state["drop_age_input"] = drop_age
 
@@ -554,11 +554,11 @@ st.caption("Training a Machine Learning Model")
 
 st.subheader("\n 3-1. Split the data into Train and Test sets. "
              "\n\n Using the 70/30 split -- 70% (train) /30% (test)")
-
 st.markdown("X - Features  \n y - Target  \n test_size - percent that goes to the validation set  \n random_state - set a seed for reproducibilty  \n\n"
             "X_train: training features (columns used to train the model)  "
             "\nX_test: testing features (same columns, but for evaluating the model)  "
             "\ny_train & y_test: the corresponding target (label) values for each  ")
+st.caption("Reference the documentation for help, if needed: [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)")
 training_data = st.text_area("Hint: X_train, X_test, y_train, y_test = train_test_split(?, ?, test_size=??, random_state=??)",
                              value="""from sklearn.model_selection import train_test_split
 X = df[df.columns[:-1]].values # all values except the last column
@@ -793,7 +793,7 @@ dtc = st.text_area("TODO: Enter your code below for the: Decision Tree Classifie
                 "\n\t splitter: choose the split at each node (options: 'best' (default); 'random')"
                    ,value="""from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
-## TODO: Enter your code below \n
+## TODO: Enter your code below
 dtc = 
 """, height=150)
 
@@ -903,7 +903,7 @@ rfc = st.text_area("TODO: Enter your code below for the: Random Forest Classifie
                 "\n\t bootstrap: whether bootstrap samples are used (default: True)"
                    ,value="""from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
-## TODO: Enter your code below \n
+## TODO: Enter your code below
 rfc =
 """, height=180)
 st.session_state["rfc_input"] = rfc
@@ -1021,7 +1021,7 @@ knn = st.text_area("TODO: Enter your code below for the: K-Nearest Neighbor (KNN
                 "\n\t metric: 'euclidean', 'manhatten', 'chebyshev'  "
                    , value="""from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
-## TODO: Enter your code below \n
+## TODO: Enter your code below
 knn = 
 """, height=180)
 st.session_state["knn_input"] = knn
