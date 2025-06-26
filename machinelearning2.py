@@ -20,7 +20,7 @@ st.header(" 🧠 Credit Score Classification 🧠 ")
 st.write("  =================================================================  ")
 
 # Team color selection dropdown
-team_colors = ["Red", "Blue", "Green", "Yellow"]
+team_colors = ["Black", "White", "Yellow", "Purple"]
 team_color = st.selectbox("Select your team color:", team_colors)
 st.session_state["team_color"] = team_color
 st.write(f"Selected Team: {st.session_state['team_color']}")
