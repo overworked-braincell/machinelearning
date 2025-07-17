@@ -435,7 +435,7 @@ if st.button("Drop Columns"):
         cols = all(col not in df.columns for col in dropped)
         if updated_df is not None and cols or dropped_index:
             st.session_state.df = updated_df.copy()
-            st.success("Columns Successfully Dropped.")
+            st.success("Columns Dropped.")
             st.write('After: ', updated_df.head(1))
             cols = list(updated_df.columns)
             st.text(cols)
